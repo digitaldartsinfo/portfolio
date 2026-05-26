@@ -4,27 +4,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tekstitööriistad</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #fafaf9;
-    --bg2: #f0efed;
-    --fg: #1a1a1a;
-    --fg2: #6b6b6b;
-    --accent: #2d5a27;
-    --accent-light: #e8f0e7;
-    --border: #ddd;
-    --radius: 10px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.06);
-    --font-body: 'Outfit', sans-serif;
-    --font-mono: 'DM Mono', monospace;
-    --green-add: rgba(45, 90, 39, 0.15);
-    --red-remove: rgba(180, 40, 40, 0.15);
-    --yellow-fmt: rgba(200, 160, 0, 0.15);
-    --blue-fmt: rgba(40, 100, 180, 0.15);
+    --bg: #1a1d26;
+    --bg2: #22252f;
+    --bg-card: #252830;
+    --bg-card-up: #2c2f3a;
+    --fg: #e2e4ea;
+    --fg2: #6e7186;
+    --fg3: #4a4d5e;
+    --accent: #e85535;
+    --accent-soft: rgba(232,85,53,0.12);
+    --accent-glow: rgba(232,85,53,0.30);
+    --border: rgba(255,255,255,0.06);
+    --border-up: rgba(255,255,255,0.10);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow-down: 6px 6px 16px rgba(0,0,0,0.35), -3px -3px 12px rgba(255,255,255,0.025);
+    --shadow-inset: inset 2px 2px 6px rgba(0,0,0,0.25), inset -2px -2px 6px rgba(255,255,255,0.02);
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --green-add: rgba(100, 210, 120, 0.14);
+    --red-remove: rgba(232, 85, 53, 0.14);
+    --yellow-fmt: rgba(220, 180, 60, 0.14);
+    --blue-fmt: rgba(80, 160, 220, 0.14);
+    --error-bg: rgba(232, 85, 53, 0.10);
+    --error-fg: #e85535;
+    --warn-bg: rgba(220, 180, 60, 0.10);
+    --warn-fg: #dcb43c;
+  }
+
+  [data-theme="light"] {
+    --bg: #f2f3f5;
+    --bg2: #e8e9ec;
+    --bg-card: #ffffff;
+    --bg-card-up: #f8f8fa;
+    --fg: #1a1d26;
+    --fg2: #6b6e7e;
+    --fg3: #9b9eb0;
+    --accent: #d14425;
+    --accent-soft: rgba(209,68,37,0.08);
+    --accent-glow: rgba(209,68,37,0.20);
+    --border: rgba(0,0,0,0.08);
+    --border-up: rgba(0,0,0,0.12);
+    --shadow-down: 4px 4px 12px rgba(0,0,0,0.06), -2px -2px 8px rgba(255,255,255,0.8);
+    --shadow-inset: inset 2px 2px 4px rgba(0,0,0,0.06), inset -2px -2px 4px rgba(255,255,255,0.7);
+    --green-add: rgba(34, 139, 34, 0.12);
+    --red-remove: rgba(200, 40, 40, 0.10);
+    --yellow-fmt: rgba(180, 140, 0, 0.10);
+    --blue-fmt: rgba(40, 100, 180, 0.10);
+    --error-bg: rgba(209, 68, 37, 0.08);
+    --error-fg: #c03820;
+    --warn-bg: rgba(180, 140, 0, 0.08);
+    --warn-fg: #9a7600;
   }
 
   body {
@@ -33,6 +69,7 @@
     color: var(--fg);
     min-height: 100vh;
     line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
   }
 
   /* ─── TOP BAR ─── */
@@ -40,29 +77,31 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 28px;
+    padding: 16px 28px;
+    background: var(--bg2);
     border-bottom: 1px solid var(--border);
-    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
     position: sticky;
     top: 0;
     z-index: 100;
   }
   .topbar-title {
     font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: -0.02em;
-    color: var(--accent);
+    font-size: 1rem;
+    letter-spacing: .02em;
+    color: var(--fg);
   }
+  .topbar-title span { color: var(--accent); }
   .topbar-back {
     display: none;
     align-items: center;
     gap: 6px;
-    background: none;
+    background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    padding: 7px 16px;
     font-family: var(--font-body);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     color: var(--fg2);
     cursor: pointer;
     transition: all 0.2s;
@@ -78,67 +117,67 @@
     padding: 80px 24px;
   }
   .menu-heading {
-    font-size: 2.4rem;
+    font-size: 2rem;
     font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    color: var(--fg);
   }
   .menu-sub {
     color: var(--fg2);
-    font-size: 1rem;
-    font-weight: 300;
-    margin-bottom: 48px;
+    font-size: 0.92rem;
+    font-weight: 400;
+    margin-bottom: 40px;
   }
   .menu-cards {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
   }
   .menu-card {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 24px 28px;
-    background: #fff;
+    gap: 16px;
+    padding: 18px 20px;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     cursor: pointer;
     transition: all 0.25s;
-    box-shadow: var(--shadow);
   }
   .menu-card:hover {
-    border-color: var(--accent);
+    background: var(--bg-card-up);
+    border-color: var(--border-up);
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    box-shadow: 8px 8px 24px rgba(0,0,0,0.4), -4px -4px 16px rgba(255,255,255,0.03);
   }
   .menu-card-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    background: var(--accent-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
-    font-size: 1.3rem;
+    color: var(--fg);
+    opacity: 0.85;
   }
+  .menu-card-icon svg { width: 24px; height: 24px; }
   .menu-card-text h3 {
-    font-size: 1.05rem;
-    font-weight: 500;
-    margin-bottom: 2px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-bottom: 1px;
+    color: var(--fg);
   }
   .menu-card-text p {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: var(--fg2);
-    font-weight: 300;
+    font-weight: 400;
   }
   .menu-card-arrow {
     margin-left: auto;
-    color: var(--fg2);
+    color: var(--fg3);
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: all 0.2s;
+    font-size: 0.9rem;
   }
-  .menu-card:hover .menu-card-arrow { opacity: 1; }
+  .menu-card:hover .menu-card-arrow { opacity: 1; color: var(--accent); }
 
   /* ─── TOOL VIEWS ─── */
   .tool-view {
@@ -163,22 +202,25 @@
 
   /* ─── SHARED UI COMPONENTS ─── */
   .file-drop {
-    border: 2px dashed var(--border);
+    border: 1.5px dashed var(--fg3);
     border-radius: var(--radius);
-    padding: 36px;
+    padding: 30px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s;
-    background: #fff;
+    background: var(--bg-card);
+    box-shadow: var(--shadow-inset);
     position: relative;
   }
   .file-drop:hover, .file-drop.dragover {
     border-color: var(--accent);
-    background: var(--accent-light);
+    background: var(--accent-soft);
+    box-shadow: none;
   }
   .file-drop.has-file {
     border-color: var(--accent);
     border-style: solid;
+    box-shadow: none;
   }
   .file-drop input[type="file"] {
     position: absolute;
@@ -188,7 +230,7 @@
   }
   .file-drop-label {
     color: var(--fg2);
-    font-size: 0.9rem;
+    font-size: 0.86rem;
   }
   .file-drop-label strong {
     color: var(--accent);
@@ -196,7 +238,7 @@
   .file-drop-name {
     margin-top: 8px;
     font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--accent);
   }
 
@@ -204,53 +246,57 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 10px 22px;
+    padding: 9px 20px;
     background: var(--accent);
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-family: var(--font-body);
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.84rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    box-shadow: 0 2px 8px var(--accent-glow);
   }
-  .btn:hover { opacity: 0.85; transform: translateY(-1px); }
-  .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+  .btn:hover { box-shadow: 0 4px 20px var(--accent-glow); transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.25; cursor: not-allowed; transform: none; box-shadow: none; }
   .btn-outline {
-    background: transparent;
-    color: var(--fg);
+    background: var(--bg-card);
+    color: var(--fg2);
     border: 1px solid var(--border);
   }
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); box-shadow: var(--shadow-down); }
   .btn-row { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
 
   .output-area {
     width: 100%;
     min-height: 260px;
-    background: #fff;
+    background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 16px;
     font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     line-height: 1.7;
     resize: vertical;
     color: var(--fg);
+    box-shadow: var(--shadow-inset);
   }
   .output-pre {
     width: 100%;
     min-height: 200px;
     max-height: 70vh;
     overflow: auto;
-    background: #fff;
+    background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 16px;
     font-family: var(--font-mono);
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     line-height: 1.7;
     white-space: pre-wrap;
+    color: var(--fg);
+    box-shadow: var(--shadow-inset);
   }
 
   /* ─── TOOL 1: PUHASTA ─── */
@@ -271,8 +317,9 @@
     font-size: 0.8rem;
     font-weight: 500;
     border: 1px solid var(--border);
-    background: #fff;
+    background: var(--bg-card);
     transition: all 0.15s;
+    box-shadow: var(--shadow-down);
   }
   .id-tag:hover { transform: scale(1.04); }
   .found-id {
@@ -309,11 +356,12 @@
     margin-bottom: 24px;
   }
   .stat-card {
-    background: #fff;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 16px;
     text-align: center;
+    box-shadow: var(--shadow-down);
   }
   .stat-card h4 {
     font-size: 0.7rem;
@@ -337,19 +385,21 @@
   }
   .toggle-btn {
     padding: 8px 18px;
-    background: #fff;
+    background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     color: var(--fg2);
     cursor: pointer;
     font-family: var(--font-body);
     font-size: 0.82rem;
     transition: all 0.2s;
+    box-shadow: var(--shadow-down);
   }
   .toggle-btn.active {
     background: var(--accent);
     color: #fff;
     border-color: var(--accent);
+    box-shadow: 0 2px 10px var(--accent-glow);
   }
 
   .side-by-side {
@@ -360,16 +410,17 @@
   @media (max-width: 768px) { .side-by-side { grid-template-columns: 1fr; } }
 
   .doc-panel {
-    background: #fff;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 16px;
     max-height: 550px;
     overflow-y: auto;
+    box-shadow: var(--shadow-down);
   }
   .doc-panel h3 {
-    font-size: 0.85rem;
-    font-weight: 500;
+    font-size: 0.8rem;
+    font-weight: 600;
     color: var(--fg2);
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -385,7 +436,7 @@
     line-height: 1.65;
     font-size: 0.88rem;
   }
-  .paragraph:hover { background: var(--bg2); }
+  .paragraph:hover { background: rgba(255,255,255,0.03); }
   .paragraph.unchanged { color: var(--fg2); opacity: 0.55; }
 
   .text-bold { font-weight: bold; }
@@ -408,16 +459,17 @@
   .paragraph.current-diff {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
-    background: var(--accent-light) !important;
+    background: rgba(212,168,67,0.08) !important;
   }
 
   .unified-view {
-    background: #fff;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 16px;
     max-height: 550px;
     overflow-y: auto;
+    box-shadow: var(--shadow-down);
   }
 
   .vordle-loading {
@@ -435,12 +487,13 @@
   }
   @media (max-width: 640px) { .xmlid-panels { grid-template-columns: 1fr; } }
   .xmlid-panel {
-    background: #fff;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    box-shadow: var(--shadow-down);
   }
   .xmlid-panel-header {
     padding: 8px 14px;
@@ -460,10 +513,10 @@
     font-size: 0.68rem;
     padding: 2px 8px;
     border-radius: 20px;
-    background: var(--accent-light);
+    background: var(--accent-soft);
     color: var(--accent);
   }
-  .xmlid-badge.warn { background: #fff3e0; color: #c77c00; }
+  .xmlid-badge.warn { background: var(--warn-bg); color: var(--warn-fg); }
   .xmlid-panel textarea,
   .xmlid-panel pre {
     flex: 1;
@@ -486,19 +539,20 @@
     gap: 20px;
     flex-wrap: wrap;
     padding: 12px 16px;
-    background: #fff;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     font-family: var(--font-mono);
     font-size: 0.72rem;
     color: var(--fg2);
     margin-bottom: 12px;
+    box-shadow: var(--shadow-down);
   }
   .xmlid-stat { display: flex; flex-direction: column; gap: 2px; }
   .xmlid-stat-val { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
-  .xmlid-stat-val.warn { color: #c77c00; }
+  .xmlid-stat-val.warn { color: var(--warn-fg); }
   .xmlid-log {
-    background: #fff;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
@@ -508,7 +562,7 @@
     font-size: 0.72rem;
     line-height: 1.8;
     padding: 14px;
-    color: #c77c00;
+    color: var(--warn-fg);
     min-height: 80px;
     overflow: auto;
     white-space: pre-wrap;
@@ -530,17 +584,19 @@
   }
   .b64-progress-bar {
     flex: 1;
-    height: 8px;
+    height: 6px;
     background: var(--bg2);
-    border-radius: 4px;
+    border-radius: 3px;
     overflow: hidden;
+    box-shadow: var(--shadow-inset);
   }
   .b64-progress-fill {
     height: 100%;
     width: 0%;
     background: var(--accent);
-    border-radius: 4px;
+    border-radius: 3px;
     transition: width 0.2s;
+    box-shadow: 0 0 8px var(--accent-glow);
   }
   .b64-progress-text {
     font-family: var(--font-mono);
@@ -549,7 +605,7 @@
     min-width: 40px;
   }
   .b64-info {
-    background: #fff;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 16px 20px;
@@ -557,6 +613,7 @@
     font-size: 0.82rem;
     line-height: 1.8;
     color: var(--fg);
+    box-shadow: var(--shadow-down);
   }
 
   /* ─── TOOL 6: KONTROLLI HTML ─── */
@@ -570,7 +627,7 @@
   .kontrolli-editor {
     width: 100%;
     min-height: 280px;
-    background: #fff;
+    background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 14px;
@@ -581,6 +638,7 @@
     resize: vertical;
     tab-size: 2;
     margin-bottom: 16px;
+    box-shadow: var(--shadow-inset);
   }
   .kontrolli-summary {
     display: grid;
@@ -589,11 +647,12 @@
     margin-bottom: 16px;
   }
   .kontrolli-summary-card {
-    background: #fff;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 14px;
     text-align: center;
+    box-shadow: var(--shadow-down);
   }
   .kontrolli-summary-card .num {
     font-family: var(--font-mono);
@@ -610,7 +669,7 @@
     letter-spacing: 0.04em;
   }
   .kontrolli-issue {
-    background: #fff;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 12px 16px;
@@ -618,6 +677,7 @@
     display: flex;
     gap: 12px;
     align-items: flex-start;
+    box-shadow: var(--shadow-down);
   }
   .kontrolli-issue-icon {
     flex-shrink: 0;
@@ -631,8 +691,8 @@
     font-weight: 700;
     margin-top: 2px;
   }
-  .kontrolli-issue-error .kontrolli-issue-icon { background: #fde8e8; color: #c33; }
-  .kontrolli-issue-warning .kontrolli-issue-icon { background: #fff3e0; color: #c77c00; }
+  .kontrolli-issue-error .kontrolli-issue-icon { background: var(--error-bg); color: var(--error-fg); }
+  .kontrolli-issue-warning .kontrolli-issue-icon { background: var(--warn-bg); color: var(--warn-fg); }
   .kontrolli-issue-body { flex: 1; min-width: 0; }
   .kontrolli-issue-title { font-weight: 600; font-size: 0.88rem; margin-bottom: 2px; }
   .kontrolli-issue-desc { font-size: 0.82rem; color: var(--fg2); font-weight: 300; line-height: 1.5; }
@@ -652,15 +712,16 @@
     color: var(--fg2);
     background: var(--bg2);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     padding: 6px 10px;
     margin-top: 6px;
     overflow-x: auto;
     white-space: pre;
+    box-shadow: var(--shadow-inset);
   }
   .kontrolli-issue-snippet mark {
-    background: #fde8e8;
-    color: #c33;
+    background: var(--error-bg);
+    color: var(--error-fg);
     border-radius: 2px;
     padding: 0 2px;
   }
@@ -678,9 +739,34 @@
     padding: 3px 10px;
     border-radius: 20px;
   }
-  .kontrolli-badge-error { background: #fde8e8; color: #c33; }
-  .kontrolli-badge-warning { background: #fff3e0; color: #c77c00; }
-  .kontrolli-badge-ok { background: var(--accent-light); color: var(--accent); }
+  .kontrolli-badge-error { background: var(--error-bg); color: var(--error-fg); }
+  .kontrolli-badge-warning { background: var(--warn-bg); color: var(--warn-fg); }
+  .kontrolli-badge-ok { background: var(--accent-soft); color: var(--accent); }
+
+  /* ─── THEME TOGGLE ─── */
+  .theme-toggle {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    transition: all 0.3s;
+    box-shadow: var(--shadow-down);
+    color: var(--fg2);
+  }
+  .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+  .theme-toggle svg { width: 18px; height: 18px; transition: transform 0.3s; }
+  .theme-toggle:hover svg { transform: rotate(30deg); }
+  .theme-toggle .icon-moon { display: block; }
+  .theme-toggle .icon-sun { display: none; }
+  [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+  [data-theme="light"] .theme-toggle .icon-sun { display: block; }
+  [data-theme="light"] .topbar { background: var(--bg-card); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 
   /* ─── FADE IN ─── */
   @keyframes fadeUp {
@@ -695,11 +781,17 @@
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <span class="topbar-title">Tekstitööriistad</span>
-  <button class="topbar-back" id="backBtn" onclick="showMenu()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-    Tagasi
-  </button>
+  <span class="topbar-title">TEKSTI<span>TÖÖRIISTAD</span></span>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Vaheta teemat">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+    </button>
+    <button class="topbar-back" id="backBtn" onclick="showMenu()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Tagasi
+    </button>
+  </div>
 </div>
 
 <!-- MAIN MENU -->
@@ -708,7 +800,7 @@
   <p class="menu-sub">Vali tööriist, mida soovid kasutada.</p>
   <div class="menu-cards">
     <div class="menu-card" onclick="showTool('puhasta')">
-      <div class="menu-card-icon">🧹</div>
+      <div class="menu-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/><path d="M5 19l2-6h10l2 6H5z"/><path d="M9.5 13L12 15l2.5-2"/></svg></div>
       <div class="menu-card-text">
         <h3>Puhasta HTML</h3>
         <p>Eemalda Word HTML-ist üleliigsed stiilid ja tagid</p>
@@ -716,7 +808,7 @@
       <span class="menu-card-arrow">→</span>
     </div>
     <div class="menu-card" onclick="showTool('kontrolli')">
-      <div class="menu-card-icon">✅</div>
+      <div class="menu-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M12 3l7 4v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V7l7-4z"/></svg></div>
       <div class="menu-card-text">
         <h3>Kontrolli HTML</h3>
         <p>Leia HTML tagide vead — poolikud, vale järjekord, tühjad jm</p>
@@ -724,7 +816,7 @@
       <span class="menu-card-arrow">→</span>
     </div>
     <div class="menu-card" onclick="showTool('otsi')">
-      <div class="menu-card-icon">🔍</div>
+      <div class="menu-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></div>
       <div class="menu-card-text">
         <h3>Otsi ID duplikaate</h3>
         <p>Leia failist korduvad id-atribuudid</p>
@@ -732,7 +824,7 @@
       <span class="menu-card-arrow">→</span>
     </div>
     <div class="menu-card" onclick="showTool('vordle')">
-      <div class="menu-card-icon">⚖️</div>
+      <div class="menu-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="18" rx="1.5"/><rect x="14" y="3" width="7" height="18" rx="1.5"/></svg></div>
       <div class="menu-card-text">
         <h3>Võrdle dokumente</h3>
         <p>Kõrvuta kahte faili (.docx, .txt, .html, .xml, .akt) sõnahaaval</p>
@@ -740,7 +832,7 @@
       <span class="menu-card-arrow">→</span>
     </div>
     <div class="menu-card" onclick="showTool('xmlid')">
-      <div class="menu-card-icon">🏷️</div>
+      <div class="menu-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h.01"/><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/></svg></div>
       <div class="menu-card-text">
         <h3>Lisa XML ID-d</h3>
         <p>Lisa ja paranda paragrahvide, lõigete ja alampunktide ID-d</p>
@@ -748,7 +840,7 @@
       <span class="menu-card-arrow">→</span>
     </div>
     <div class="menu-card" onclick="showTool('base64')">
-      <div class="menu-card-icon">🔐</div>
+      <div class="menu-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/></svg></div>
       <div class="menu-card-text">
         <h3>Base64 kodeerija</h3>
         <p>Kodeeri mis tahes fail Base64 formaati</p>
@@ -928,6 +1020,24 @@
 
 
 <script>
+// ═════════════════════════════════════════════
+// THEME TOGGLE
+// ═════════════════════════════════════════════
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  try { localStorage.setItem('theme', next); } catch(e) {}
+}
+// Restore saved theme
+(function() {
+  try {
+    const saved = localStorage.getItem('theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+  } catch(e) {}
+})();
+
 // ═════════════════════════════════════════════
 // NAVIGATION
 // ═════════════════════════════════════════════
@@ -1212,7 +1322,29 @@ async function parseDocxXml(file) {
       }
     }
 
-    if (text.trim()) paragraphs.push({ text: text.trim(), runs: runData });
+    // Normaliseeri tühikud run'ide sees ja liida sama formaadiga kõrvuti olevad run'id
+    const mergedRuns = [];
+    for (const run of runData) {
+      // Asenda mitmekordsed tühikud ühega
+      const normalized = run.text.replace(/\s+/g, ' ');
+      if (!normalized) continue;
+      const last = mergedRuns[mergedRuns.length - 1];
+      if (last && JSON.stringify(last.format) === JSON.stringify(run.format)) {
+        last.text += normalized;
+      } else {
+        mergedRuns.push({ text: normalized, format: run.format });
+      }
+    }
+    // Trim start/end
+    if (mergedRuns.length > 0) {
+      mergedRuns[0].text = mergedRuns[0].text.replace(/^\s+/, '');
+      mergedRuns[mergedRuns.length - 1].text = mergedRuns[mergedRuns.length - 1].text.replace(/\s+$/, '');
+    }
+    // Eemalda tühjaks jäänud run'id
+    const cleanRuns = mergedRuns.filter(r => r.text);
+
+    const cleanText = cleanRuns.map(r => r.text).join('').trim();
+    if (cleanText) paragraphs.push({ text: cleanText, runs: cleanRuns });
   }
   return paragraphs;
 }
@@ -1362,35 +1494,94 @@ async function vordleCompare() {
   try {
     const paras1 = await parseFile(vordleFile1);
     const paras2 = await parseFile(vordleFile2);
-    const compared = [];
-    const maxLen = Math.max(paras1.length, paras2.length);
 
-    for (let i = 0; i < maxLen; i++) {
-      const p1 = paras1[i], p2 = paras2[i];
-      if (!p1 && p2) { compared.push({ type: 'added', doc1: null, doc2: p2 }); }
-      else if (p1 && !p2) { compared.push({ type: 'removed', doc1: p1, doc2: null }); }
-      else {
-        const same = p1.text === p2.text && JSON.stringify(p1.runs) === JSON.stringify(p2.runs);
-        if (same) compared.push({ type: 'unchanged', doc1: p1, doc2: p2 });
-        else compared.push({ type: 'modified', doc1: p1, doc2: p2, diff: compareWords(p1, p2) });
+    // LCS-põhine diff — leiab pikima ühise alamjada teksti järgi
+    const n = paras1.length, m = paras2.length;
+
+    // Build LCS table (optimized: only store two rows)
+    const textKey = p => p.text;
+    const prev = () => new Int32Array(m + 1);
+    let dp0 = prev(), dp1 = prev();
+
+    for (let i = 1; i <= n; i++) {
+      [dp0, dp1] = [dp1, dp0];
+      dp1.fill(0);
+      for (let j = 1; j <= m; j++) {
+        if (textKey(paras1[i-1]) === textKey(paras2[j-1])) {
+          dp1[j] = dp0[j-1] + 1;
+        } else {
+          dp1[j] = dp0[j] > dp1[j-1] ? dp0[j] : dp1[j-1];
+        }
       }
     }
 
+    // Backtrack to find LCS (need full table for this)
+    const dp = [];
+    for (let i = 0; i <= n; i++) dp.push(new Int32Array(m + 1));
+    for (let i = 1; i <= n; i++) {
+      for (let j = 1; j <= m; j++) {
+        if (textKey(paras1[i-1]) === textKey(paras2[j-1])) {
+          dp[i][j] = dp[i-1][j-1] + 1;
+        } else {
+          dp[i][j] = dp[i-1][j] > dp[i][j-1] ? dp[i-1][j] : dp[i][j-1];
+        }
+      }
+    }
+
+    // Backtrack
+    const compared = [];
+    let i = n, j = m;
+    const stack = [];
+    while (i > 0 && j > 0) {
+      if (textKey(paras1[i-1]) === textKey(paras2[j-1])) {
+        const same = JSON.stringify(paras1[i-1].runs) === JSON.stringify(paras2[j-1].runs);
+        if (same) {
+          stack.push({ type: 'unchanged', doc1: paras1[i-1], doc2: paras2[j-1] });
+        } else {
+          stack.push({ type: 'modified', doc1: paras1[i-1], doc2: paras2[j-1], diff: compareWords(paras1[i-1], paras2[j-1]) });
+        }
+        i--; j--;
+      } else if (dp[i-1][j] >= dp[i][j-1]) {
+        stack.push({ type: 'removed', doc1: paras1[i-1], doc2: null });
+        i--;
+      } else {
+        stack.push({ type: 'added', doc1: null, doc2: paras2[j-1] });
+        j--;
+      }
+    }
+    while (i > 0) { stack.push({ type: 'removed', doc1: paras1[i-1], doc2: null }); i--; }
+    while (j > 0) { stack.push({ type: 'added', doc1: null, doc2: paras2[j-1] }); j--; }
+
+    // Stack is reversed — flip it
+    while (stack.length) compared.push(stack.pop());
+
+    // Post-processing: merge adjacent removed+added into modified pairs
+    const merged = [];
+    for (let k = 0; k < compared.length; k++) {
+      if (compared[k].type === 'removed' && k + 1 < compared.length && compared[k + 1].type === 'added') {
+        merged.push({ type: 'modified', doc1: compared[k].doc1, doc2: compared[k + 1].doc2, diff: compareWords(compared[k].doc1, compared[k + 1].doc2) });
+        k++; // skip next
+      } else {
+        merged.push(compared[k]);
+      }
+    }
+
+    const final = merged;
     const stats = {
-      total: compared.length,
-      unchanged: compared.filter(p => p.type === 'unchanged').length,
-      modified: compared.filter(p => p.type === 'modified').length,
-      added: compared.filter(p => p.type === 'added').length,
-      removed: compared.filter(p => p.type === 'removed').length,
-      similarity: ((compared.filter(p => p.type === 'unchanged').length / compared.length) * 100).toFixed(1)
+      total: final.length,
+      unchanged: final.filter(p => p.type === 'unchanged').length,
+      modified: final.filter(p => p.type === 'modified').length,
+      added: final.filter(p => p.type === 'added').length,
+      removed: final.filter(p => p.type === 'removed').length,
+      similarity: ((final.filter(p => p.type === 'unchanged').length / final.length) * 100).toFixed(1)
     };
 
-    vordleComparison = { paragraphs: compared, stats };
+    vordleComparison = { paragraphs: final, stats };
     vordleDiffIdx = -1;
     vordleRender();
     document.getElementById('vordle-nextDiff').style.display = (stats.modified + stats.added + stats.removed > 0) ? '' : 'none';
   } catch (err) {
-    results.innerHTML = '<div class="otsi-ok" style="background:#fde8e8;color:#a33;">Viga: ' + escH(err.message) + '</div>';
+    results.innerHTML = '<div class="otsi-ok" style="background: var(--error-bg);color:var(--error-fg);">Viga: ' + escH(err.message) + '</div>';
   }
   document.getElementById('vordle-btn').disabled = false;
 }
@@ -2145,8 +2336,8 @@ function kontrolliRenderResults(issues) {
   const warnings = issues.filter(i => i.type === 'warning').length;
 
   summary.innerHTML =
-    '<div class="kontrolli-summary-card"><div class="num" style="color:#c33">' + errors + '</div><div class="label">Vead</div></div>' +
-    '<div class="kontrolli-summary-card"><div class="num" style="color:#c77c00">' + warnings + '</div><div class="label">Hoiatused</div></div>' +
+    '<div class="kontrolli-summary-card"><div class="num" style="color:var(--error-fg)">' + errors + '</div><div class="label">Vead</div></div>' +
+    '<div class="kontrolli-summary-card"><div class="num" style="color:var(--warn-fg)">' + warnings + '</div><div class="label">Hoiatused</div></div>' +
     '<div class="kontrolli-summary-card"><div class="num">' + issues.length + '</div><div class="label">Kokku</div></div>';
 
   if (issues.length === 0) {
